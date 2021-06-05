@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react"
-import BicycleList from "./BicyleList"
-import BicycleItem from "./BicycleItem"
 import {
 	fetchAllData,
 	deleteAllData,
 	addTestData,
 	addBicyle,
-} from "./dbMethods"
+} from "../../helpers/dbMethods"
+import Layout from "../../layout/Layout"
 
 const BicycleData = () => {
 	const [bicycles, setBicycles] = useState([])
@@ -34,8 +33,7 @@ const BicycleData = () => {
 
 	return (
 		<div>
-			<BicycleList bicycles={bicycles} />
-			<BicycleItem handleAddBicycle={handleAddBicycle} bicycle={{}}/>
+			<Layout bicycles={bicycles}></Layout>
 		</div>
 	)
 }

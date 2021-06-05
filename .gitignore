@@ -23,3 +23,5 @@ yarn-debug.log*
 yarn-error.log*
 
  .vscode
+
+z_rough_notes.js
