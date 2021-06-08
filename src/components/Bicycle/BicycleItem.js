@@ -3,8 +3,9 @@ import { PropTypes } from "prop-types"
 import { useFormik } from "formik"
 
 const BicycleItem = (props) => {
+	console.log('new props')
 	const { frameName, frameWeight } = props.bicycle
-
+	
 	const formik = useFormik({
 		initialValues: {
 			frameName: frameName || "",
@@ -14,6 +15,7 @@ const BicycleItem = (props) => {
 			props.handleAddBicycle(values)
 			actions.resetForm()
 		},
+		enableReinitialize: true,
 	})
 
 	return (

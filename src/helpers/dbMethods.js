@@ -4,6 +4,10 @@ export const fetchAllData = async () => {
 	return await db.bicycles.toArray()
 }
 
+export const fetchById = async (id) => {
+	return await db.bicycles.get(id)
+}
+
 export const deleteAllData = async () => {
 	await db.bicycles.clear()
 }

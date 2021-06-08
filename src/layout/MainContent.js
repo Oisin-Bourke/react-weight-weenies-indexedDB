@@ -1,6 +1,7 @@
 import React from "react"
 import Typography from "@material-ui/core/Typography"
 import { makeStyles } from "@material-ui/core/styles"
+import BicycleItem from "../components/Bicycle/BicycleItem"
 
 const useStyles = makeStyles((theme) => ({
 	// necessary for content to be below app bar
@@ -11,13 +12,16 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-const MainContent = () => {
-    const classes = useStyles()
+const MainContent = (props) => {
+	const { bicycle } = props
+	const classes = useStyles()
 
 	return (
 		<main className={classes.content}>
 			<div className={classes.toolbar} />
-			<Typography paragraph>Form here...</Typography>
+			<Typography>
+				<BicycleItem bicycle={bicycle} />
+			</Typography>
 		</main>
 	)
 }

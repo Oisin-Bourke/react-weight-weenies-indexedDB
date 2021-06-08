@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react"
 import {
 	fetchAllData,
+	fetchById,
 	deleteAllData,
 	addTestData,
 	addBicyle,
@@ -11,13 +12,15 @@ const BicycleData = () => {
 	const [bicycles, setBicycles] = useState([])
 
 	useEffect(() => {
-		console.log("init data...")
 		const init = async () => {
-			const promise1 = deleteAllData()
-			const promise2 = addTestData()
+			console.log("init data...")
+			const promise1 = await deleteAllData()
+			const promise2 = await addTestData()
 			await Promise.all([promise1, promise2])
+			console.log('promise resolved')
 
 			fetchAllData().then((data) => {
+				console.log('setting data',data)
 				setBicycles(data)
 			})
 		}
@@ -33,7 +36,7 @@ const BicycleData = () => {
 
 	return (
 		<div>
-			<Layout bicycles={bicycles}></Layout>
+			{<Layout bicycles={bicycles}></Layout>}
 		</div>
 	)
 }
