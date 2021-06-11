@@ -2,8 +2,7 @@ import React from "react"
 import { PropTypes } from "prop-types"
 import { useFormik } from "formik"
 
-const BicycleItem = (props) => {
-	console.log('new props')
+const BicycleForm = (props) => {
 	const { frameName, frameWeight } = props.bicycle
 	
 	const formik = useFormik({
@@ -12,8 +11,8 @@ const BicycleItem = (props) => {
 			frameWeight: frameWeight || "",
 		},
 		onSubmit(values, actions) {
-			props.handleAddBicycle(values)
-			actions.resetForm()
+			props.handleCreate(values)
+			//actions.resetForm()
 		},
 		enableReinitialize: true,
 	})
@@ -41,10 +40,10 @@ const BicycleItem = (props) => {
 	)
 }
 
-BicycleItem.propTypes = {
+BicycleForm.propTypes = {
 	frameName: PropTypes.string,
 	frameWeight: PropTypes.number,
-	handleAddBicycle: PropTypes.func,
+	handleCreate: PropTypes.func,
 }
 
-export default BicycleItem
+export default BicycleForm

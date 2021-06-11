@@ -1,19 +1,27 @@
 import db from "./db"
 
-export const fetchAllData = async () => {
-	return await db.bicycles.toArray()
+export const create = async (bicycle) => {
+	await db.bicycles.add(bicycle)
 }
 
 export const fetchById = async (id) => {
 	return await db.bicycles.get(id)
 }
 
-export const deleteAllData = async () => {
-	await db.bicycles.clear()
+export const update = async (bicycle) => {
+	await db.bicycles.put(bicycle)
 }
 
-export const addBicyle = async (bicycle) => {
-	await db.bicycles.add(bicycle)
+export const deleteById = async (id) => {
+	await db.bicycles.delete(id)	
+}
+
+export const fetchAll = async () => {
+	return await db.bicycles.toArray()
+}
+
+export const deleteAll = async () => {
+	await db.bicycles.clear()
 }
 
 export const addTestData = async () => {

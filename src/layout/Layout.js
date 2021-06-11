@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import CssBaseline from "@material-ui/core/CssBaseline"
 import Divider from "@material-ui/core/Divider"
 import List from "@material-ui/core/List"
@@ -14,46 +14,19 @@ import MainContent from "./MainContent"
 
 import { fetchById } from "../helpers/dbMethods"
 
-const drawerWidth = 300
-
 const useStyles = makeStyles((theme) => ({
 	root: {
 		display: "flex",
 	},
-	drawer: {
-		[theme.breakpoints.up("sm")]: {
-			width: drawerWidth,
-			flexShrink: 0,
-		},
-	},
-	appBar: {
-		[theme.breakpoints.up("sm")]: {
-			width: `calc(100% - ${drawerWidth}px)`,
-			marginLeft: drawerWidth,
-		},
-	},
-	menuButton: {
-		marginRight: theme.spacing(2),
-		[theme.breakpoints.up("sm")]: {
-			display: "none",
-		},
-	},
 	// necessary for content to be below app bar
 	toolbar: theme.mixins.toolbar,
-	drawerPaper: {
-		width: drawerWidth,
-	},
-	content: {
-		flexGrow: 1,
-		padding: theme.spacing(3),
-	},
 }))
 
 function Layout(props) {
 	const { window, bicycles } = props
 	const classes = useStyles()
 	const [mobileOpen, setMobileOpen] = useState(false)
-	const [selected, setSelected] = useState({}) 
+	const [selected, setSelected] = useState({})
 
 	const handleDrawerToggle = () => {
 		setMobileOpen(!mobileOpen)
@@ -61,11 +34,18 @@ function Layout(props) {
 
 	const handleSelect = async (id) => {
 		const bicycle = await fetchById(id)
-		console.log('bicycle', bicycle)
 		setSelected(bicycle)
 	}
 
-	// list of bicycle projects
+	const handleCreate = () => {
+		setSelected({})
+	}
+
+	useEffect(() => {
+		bicycles.length > 0 && setSelected(bicycles[0])
+	},[bicycles])
+
+	// list of bicycles
 	const renderBicycleListDrawer = (bicycles) => {
 		return (
 			<div>
@@ -75,7 +55,12 @@ function Layout(props) {
 					{Array.isArray(bicycles) &&
 						bicycles.length > 0 &&
 						bicycles.map((bicycle) => (
-							<ListItem key={bicycle.id.toString()} button onClick={() => handleSelect(bicycle.id)}>
+							<ListItem
+								button
+								key={bicycle.id.toString()}
+								onClick={() => handleSelect(bicycle.id)}
+								selected={selected.id === bicycle.id}
+							>
 								<ListItemIcon>
 									<DirectionsBike />
 								</ListItemIcon>
@@ -83,13 +68,13 @@ function Layout(props) {
 							</ListItem>
 						))}
 				</List>
+				<button onClick={handleCreate}>Create New</button>
 			</div>
 		)
 	}
 
 	const container =
 		window !== undefined ? () => window().document.body : undefined
-
 
 	// layout
 	return (
@@ -102,7 +87,7 @@ function Layout(props) {
 				container={container}
 				children={renderBicycleListDrawer(bicycles)}
 			/>
-			<MainContent bicycle={selected} />
+			<MainContent handleCreate={props.handleCreate} bicycle={selected} />
 		</div>
 	)
 }

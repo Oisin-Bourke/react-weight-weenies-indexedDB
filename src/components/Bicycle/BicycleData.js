@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react"
 import {
-	fetchAllData,
+	fetchAll,
 	fetchById,
-	deleteAllData,
+	deleteAll,
 	addTestData,
-	addBicyle,
+	create,
 } from "../../helpers/dbMethods"
 import Layout from "../../layout/Layout"
 
@@ -14,21 +14,21 @@ const BicycleData = () => {
 	useEffect(() => {
 		const init = async () => {
 			console.log("init data...")
-			const promise1 = await deleteAllData()
+			const promise1 = await deleteAll()
 			const promise2 = await addTestData()
 			await Promise.all([promise1, promise2])
-			console.log('promise resolved')
+			console.log("promise resolved")
 
-			fetchAllData().then((data) => {
-				console.log('setting data',data)
+			fetchAll().then((data) => {
+				console.log("setting data", data)
 				setBicycles(data)
 			})
 		}
 		init()
 	}, [])
 
-	const handleAddBicycle = (bicycle) => {
-		addBicyle(bicycle).then(() => {
+	const handleCreate = (bicycle) => {
+		create(bicycle).then(() => {
 			const newBicycles = [...bicycles, bicycle]
 			setBicycles(newBicycles)
 		})
@@ -36,7 +36,10 @@ const BicycleData = () => {
 
 	return (
 		<div>
-			{<Layout bicycles={bicycles}></Layout>}
+			<Layout
+				bicycles={bicycles}
+				handleCreate={handleCreate}
+			></Layout>
 		</div>
 	)
 }
